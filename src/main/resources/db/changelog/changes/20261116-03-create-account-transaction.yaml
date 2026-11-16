@@ -1,0 +1,100 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261116-03-create-account-transaction
+      author: juan
+      changes:
+        - createTable:
+            tableName: account_transaction
+            remarks: The movements of the bank account, as the bank reports them
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: transaction_file_id
+                  type: BIGINT
+                  remarks: The file the transaction was loaded from
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_account_transaction_transaction_file
+                    references: transaction_file(id)
+              - column:
+                  name: bank_reference
+                  type: VARCHAR(64)
+                  remarks: Identifier the bank gives the transaction (Banki azonosító)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_account_transaction_bank_reference
+              - column:
+                  name: account_number
+                  type: VARCHAR(64)
+                  remarks: The own account (Számlaszám)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: counterparty_account_number
+                  type: VARCHAR(64)
+                  remarks: Only transfers have it (Ellenoldali számlaszám)
+              - column:
+                  name: counterparty_name
+                  type: VARCHAR(255)
+                  remarks: The merchant or the other side of a transfer (Ellenoldali név)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(255)
+                  remarks: Kind of movement, as the bank names it (Forgalom típusa)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: memo
+                  type: VARCHAR(1000)
+                  remarks: Free text of the transaction (Közlemény)
+              - column:
+                  name: bank_category
+                  type: VARCHAR(255)
+                  remarks: Category the bank assigned, kept as it comes (Tranzakció kategória)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_time
+                  type: TIMESTAMP
+                  remarks: When the transaction happened (Tranzakció időpontja)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: booking_date
+                  type: DATE
+                  remarks: When the bank booked it (Könyvelés dátuma)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: NUMERIC(19, 2)
+                  remarks: Negative when money leaves the account (Összeg)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: VARCHAR(3)
+                  remarks: Devizanem
+                  constraints:
+                    nullable: false
+        - createIndex:
+            tableName: account_transaction
+            indexName: ix_account_transaction_transaction_time
+            columns:
+              - column:
+                  name: transaction_time
+        - createIndex:
+            tableName: account_transaction
+            indexName: ix_account_transaction_transaction_file_id
+            columns:
+              - column:
+                  name: transaction_file_id

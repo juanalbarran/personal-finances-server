@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261116-02-create-transaction-file
+      author: juan
+      changes:
+        - createTable:
+            tableName: transaction_file
+            remarks: The monthly transaction files that were loaded into the database
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: file_name
+                  type: VARCHAR(255)
+                  remarks: Name in the files directory, <year>.<month>.transactions.xlsx
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: uq_transaction_file_file_name
+              - column:
+                  name: period_year
+                  type: INT
+                  remarks: Year of the month the transactions of the file belong to
+                  constraints:
+                    nullable: false
+              - column:
+                  name: period_month
+                  type: INT
+                  remarks: Month the transactions of the file belong to, 1 to 12
+                  constraints:
+                    nullable: false
+              - column:
+                  name: checksum
+                  type: VARCHAR(64)
+                  remarks: SHA-256 of the file content, in hexadecimal
+                  constraints:
+                    nullable: false
+              - column:
+                  name: loaded_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_count
+                  type: INT
+                  remarks: How many transactions the load stored
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: transaction_file
+            columnNames: period_year, period_month
+            constraintName: uq_transaction_file_period

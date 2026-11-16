@@ -4,8 +4,8 @@ This is an application that will be the backend of the application that will han
 
 ## Input
 
-The first input type this application will receive are the list of my monthly transactions, they are located in `./files/` the first transaction is `./files/transactions.november.2026.xlsx` so this will set the format for the next ones.
-The new uploaded transactions are gonna be stored in the `./files/` directory following the pattern `transacions.<month>.<year>.xlsx`.
+The first input type this application will receive are the list of my monthly transactions, they are located in `./files/` the first transaction is `./files/2026.october.transactions.xlsx` so this will set the format for the next ones.
+The new uploaded transactions are gonna be stored in the `./files/` directory following the pattern `<year>.<month>.transactions.xlsx`, where `<month>` is the name of the month in english and lowercase, and it is the month the transactions belong to. Only the transactions of that month are taken from the file.
 
 ## Technologies
 

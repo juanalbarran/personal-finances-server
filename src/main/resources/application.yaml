@@ -26,3 +26,9 @@ spring:
       "[first_user_email]": ${first_user_email}
       "[first_user_name]": ${first_user_name}
       "[first_user_last_name]": ${first_user_last_name}
+
+finances:
+  transaction-files:
+    # Where the monthly <year>.<month>.transactions.xlsx files live, relative to
+    # the project root the `server` script runs from
+    directory: docs/files
