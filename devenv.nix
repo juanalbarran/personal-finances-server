@@ -1,9 +1,9 @@
 # personal-finances-server/devenv.nix
 {pkgs, ...}: let
-  application_name = "personal-finances-server";
-  database_name = "personal_finances";
-  database_username = "personal_finances";
-  database_password = "personal_finances";
+  application_name = "finances";
+  database_name = "finances";
+  database_username = "finances";
+  database_password = "finances";
   database_host = "127.0.0.1";
   # Give every project its own ports, so two projects can run at the same time
   database_port = 5432;
@@ -65,6 +65,12 @@ in {
   # The app, with the heap capped and the debugger listening on debug_port
   scripts.server.exec = ''
     wait-for-db
+    cd "$DEVENV_ROOT"
+    # The first user's data (.env.local, not in git) reaches the Liquibase
+    # changelog as the first_user_* variables
+    while IFS='=' read -r key value; do
+      export "first_user_$key=$value"
+    done < <(grep -E '^[a-z_]+=' .env.local)
     mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xmx512m -XX:TieredStopAtLevel=1 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$debug_port"
   '';
 

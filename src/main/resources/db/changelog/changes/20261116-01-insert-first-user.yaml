@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261116-01-insert-first-user
+      author: juan
+      # The values are the spring.liquibase.parameters of application.yaml
+      changes:
+        - insert:
+            tableName: user_account
+            columns:
+              - column:
+                  name: username
+                  value: "${first_user_username}"
+              - column:
+                  name: email
+                  value: "${first_user_email}"
+              - column:
+                  name: name
+                  value: "${first_user_name}"
+              - column:
+                  name: last_name
+                  value: "${first_user_last_name}"

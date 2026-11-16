@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# finances
+# Runs the whole application: Postgres (unless `devenv up` already has it
+# running) and the Spring Boot server. Ctrl-C stops both.
+set -euo pipefail
+
+cd "$(dirname "$(readlink -f "$0")")"
+
+if ! devenv shell -- bash -c 'pg_isready -q -h "$database_host" -p "$database_port"'; then
+  devenv up -d
+  trap 'devenv processes down' EXIT
+fi
+
+devenv shell -- server

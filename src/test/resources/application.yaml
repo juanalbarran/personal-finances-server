@@ -1,0 +1,17 @@
+# finances/application.yaml (tests)
+# The datasource comes from the Testcontainers Postgres of each test
+spring:
+  application:
+    name: finances-test
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    parameters:
+      "[first_user_username]": test.user
+      "[first_user_email]": test.user@example.com
+      "[first_user_name]": Test
+      "[first_user_last_name]": User

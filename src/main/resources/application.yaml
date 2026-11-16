@@ -1,0 +1,28 @@
+# finances/application.yaml
+spring:
+  application:
+    name: ${application_name}
+
+  datasource:
+    # Host, port, database and user come from devenv.nix
+    url: jdbc:postgresql://${database_host}:${database_port}/${database_name}
+    username: ${database_username}
+    password: ${database_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # Liquibase owns the schema, Hibernate only checks the entities match it
+      ddl-auto: validate
+    open-in-view: false
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    # The first user's data. The devenv `server` script reads it from
+    # .env.local, which is not in git
+    parameters:
+      "[first_user_username]": ${first_user_username}
+      "[first_user_email]": ${first_user_email}
+      "[first_user_name]": ${first_user_name}
+      "[first_user_last_name]": ${first_user_last_name}
