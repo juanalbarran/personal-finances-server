@@ -6,6 +6,6 @@ import java.util.Set;
 @FunctionalInterface
 public interface LoadBankReferencesPort {
 
-  /** The ones of the given bank references that already have a transaction in the database. */
-  Set<String> loadExistingBankReferences(Collection<String> bankReferences);
+  /** The ones of the given bank references the user already has a transaction for. */
+  Set<String> loadExistingBankReferences(long userId, Collection<String> bankReferences);
 }

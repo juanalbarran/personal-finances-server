@@ -1,16 +1,16 @@
 package com.jarsolutions.finances.transaction.application.port.out;
 
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
+import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 
 @FunctionalInterface
 public interface StoreTransactionFilePort {
 
   /**
-   * Writes the file into the files directory. Never overwrites a file with other content.
+   * Writes the file into the directory of its user. Never overwrites a file with other content.
    *
    * @throws
    *     com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException
    *     when a file with that name and other content is there
    */
-  void storeTransactionFile(TransactionFileName name, byte[] content);
+  void storeTransactionFile(TransactionFileLocation location, byte[] content);
 }

@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261117-02-insert-default-categories
+      author: juan
+      # The users that exist before this phase get the same categories and rules
+      # DefaultCategories gives the users created from now on
+      changes:
+        - sql:
+            sql: >
+              insert into category (user_account_id, name)
+              select u.id, c.name
+              from user_account u
+              cross join (values
+                (1, 'Home and Furniture'),
+                (2, 'Groceries'),
+                (3, 'Flights'),
+                (4, 'Mom'),
+                (5, 'Eating out'),
+                (6, 'Caffes'),
+                (7, 'Pubs'),
+                (8, 'Food Delivery'),
+                (9, 'Revolut'),
+                (10, 'Transport'),
+                (11, 'Health and Beauty'),
+                (12, 'Wellness'),
+                (13, 'Subscriptions'),
+                (14, 'Other shopping'),
+                (15, 'Bank fees')
+              ) as c(position, name)
+              order by u.id, c.position
+        - sql:
+            sql: >
+              insert into category_rule (user_account_id, category_id, field, pattern)
+              select c.user_account_id, c.id, r.field, r.pattern
+              from category c
+              join (values
+                (1, 'Groceries', 'BANK_CATEGORY', 'Bevásárlás'),
+                (2, 'Eating out', 'BANK_CATEGORY', 'Vendéglátás'),
+                (3, 'Transport', 'BANK_CATEGORY', 'Közlekedés'),
+                (4, 'Health and Beauty', 'BANK_CATEGORY', 'Egészség, szépség'),
+                (5, 'Home and Furniture', 'BANK_CATEGORY', 'Otthon'),
+                (6, 'Other shopping', 'BANK_CATEGORY', 'Ruházat'),
+                (7, 'Bank fees', 'TYPE', 'BANKKÁRTYÁVAL KAPCS. DÍJ'),
+                (8, 'Bank fees', 'TYPE', 'ELEM: E-UTALÁS+ 400EFT'),
+                (9, 'Bank fees', 'TYPE', 'TOP AJÁNLAT HAVIDÍJ'),
+                (10, 'Bank fees', 'TYPE', 'HAVI CSOMAGDÍJ'),
+                (11, 'Bank fees', 'TYPE', 'KP.FELVÉT/-BEFIZ. DÍJA'),
+                (12, 'Bank fees', 'TYPE', 'KÖLTSÉG ÉS JUTALÉK'),
+                (13, 'Food Delivery', 'COUNTERPARTY_NAME', 'Wolt'),
+                (14, 'Revolut', 'COUNTERPARTY_NAME', 'Revolut'),
+                (15, 'Flights', 'COUNTERPARTY_NAME', 'Ryanair'),
+                (16, 'Flights', 'COUNTERPARTY_NAME', 'Wizz Air'),
+                (17, 'Flights', 'COUNTERPARTY_NAME', 'klm.com')
+              ) as r(position, category, field, pattern) on r.category = c.name
+              order by c.user_account_id, r.position

@@ -30,4 +30,9 @@ public record Transaction(
   public YearMonth period() {
     return YearMonth.from(transactionTime);
   }
+
+  /** Money that left the account. Only the spends get a category from the rules. */
+  public boolean isSpend() {
+    return amount.signum() < 0;
+  }
 }

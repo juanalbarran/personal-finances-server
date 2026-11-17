@@ -6,6 +6,6 @@ import java.util.List;
 @FunctionalInterface
 public interface LoadNewTransactionFilesUseCase {
 
-  /** Loads every file of the files directory that was not loaded before. */
+  /** Loads every file of the files directory, of any user, that was not loaded before. */
   List<TransactionFile> loadNewTransactionFiles();
 }

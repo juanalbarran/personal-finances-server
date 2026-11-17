@@ -37,14 +37,20 @@ public final class TransactionFileFixture {
 
   private TransactionFileFixture() {}
 
-  /** A card purchase. */
+  /** A card purchase in the corner shop, which the bank calls groceries (Bevásárlás). */
   public static Transaction purchase(String bankReference, String time, String amount) {
+    return purchase(bankReference, "CORNER SHOP", time, amount);
+  }
+
+  /** A card purchase, which the bank calls groceries (Bevásárlás). */
+  public static Transaction purchase(
+      String bankReference, String counterpartyName, String time, String amount) {
     LocalDateTime transactionTime = LocalDateTime.parse(time);
     return new Transaction(
         bankReference,
         "1111111111111111",
         Optional.empty(),
-        "CORNER SHOP",
+        counterpartyName,
         "VÁSÁRLÁS KÁRTYÁVAL",
         Optional.of("0000000000 CORNER SHOP -ÉRINTŐ"),
         "Bevásárlás",

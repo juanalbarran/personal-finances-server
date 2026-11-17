@@ -6,6 +6,6 @@ import java.util.List;
 @FunctionalInterface
 public interface GetTransactionFilesUseCase {
 
-  /** The loaded files, the most recent month first. */
-  List<TransactionFile> getTransactionFiles();
+  /** The loaded files of the user, the most recent month first. */
+  List<TransactionFile> getTransactionFiles(String username);
 }

@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261117-01-create-category-rule
+      author: juan
+      changes:
+        - createTable:
+            tableName: category_rule
+            remarks: The rules that put the spends of a user in a category when they are loaded
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_account_id
+                  type: BIGINT
+                  remarks: The user the rule belongs to
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_category_rule_user_account
+                    references: user_account(id)
+                    deleteCascade: true
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  remarks: The category a matching spend gets
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_category_rule_category
+                    references: category(id)
+                    deleteCascade: true
+              - column:
+                  name: field
+                  type: VARCHAR(32)
+                  remarks: What the rule looks at, COUNTERPARTY_NAME, TYPE or BANK_CATEGORY
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pattern
+                  type: VARCHAR(255)
+                  remarks: Text the counterparty name contains, or the type or bank category equals
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: category_rule
+            columnNames: user_account_id, field, pattern
+            constraintName: uq_category_rule_user_account_field_pattern

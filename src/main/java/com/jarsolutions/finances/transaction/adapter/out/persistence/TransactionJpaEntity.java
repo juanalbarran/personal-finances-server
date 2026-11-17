@@ -25,7 +25,13 @@ class TransactionJpaEntity {
   @JoinColumn(name = "transaction_file_id", nullable = false)
   private TransactionFileJpaEntity transactionFile;
 
-  @Column(name = "bank_reference", nullable = false, unique = true, length = 64)
+  @Column(name = "user_account_id", nullable = false)
+  private Long userId;
+
+  @Column(name = "category_id")
+  private Long categoryId;
+
+  @Column(name = "bank_reference", nullable = false, length = 64)
   private String bankReference;
 
   @Column(name = "account_number", nullable = false, length = 64)
@@ -62,6 +68,8 @@ class TransactionJpaEntity {
 
   TransactionJpaEntity(
       TransactionFileJpaEntity transactionFile,
+      Long userId,
+      Long categoryId,
       String bankReference,
       String accountNumber,
       String counterpartyAccountNumber,
@@ -74,6 +82,8 @@ class TransactionJpaEntity {
       BigDecimal amount,
       String currency) {
     this.transactionFile = transactionFile;
+    this.userId = userId;
+    this.categoryId = categoryId;
     this.bankReference = bankReference;
     this.accountNumber = accountNumber;
     this.counterpartyAccountNumber = counterpartyAccountNumber;
@@ -87,19 +97,59 @@ class TransactionJpaEntity {
     this.currency = currency;
   }
 
+  void setCategoryId(Long categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  Long getId() {
+    return id;
+  }
+
+  Long getCategoryId() {
+    return categoryId;
+  }
+
   String getBankReference() {
     return bankReference;
+  }
+
+  String getAccountNumber() {
+    return accountNumber;
   }
 
   String getCounterpartyAccountNumber() {
     return counterpartyAccountNumber;
   }
 
+  String getCounterpartyName() {
+    return counterpartyName;
+  }
+
+  String getType() {
+    return type;
+  }
+
   String getMemo() {
     return memo;
   }
 
+  String getBankCategory() {
+    return bankCategory;
+  }
+
+  LocalDateTime getTransactionTime() {
+    return transactionTime;
+  }
+
+  LocalDate getBookingDate() {
+    return bookingDate;
+  }
+
   BigDecimal getAmount() {
     return amount;
+  }
+
+  String getCurrency() {
+    return currency;
   }
 }

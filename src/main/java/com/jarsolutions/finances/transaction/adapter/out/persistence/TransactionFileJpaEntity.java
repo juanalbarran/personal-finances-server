@@ -16,7 +16,10 @@ class TransactionFileJpaEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "file_name", nullable = false, unique = true)
+  @Column(name = "user_account_id", nullable = false)
+  private Long userId;
+
+  @Column(name = "file_name", nullable = false)
   private String fileName;
 
   @Column(name = "period_year", nullable = false)
@@ -37,12 +40,14 @@ class TransactionFileJpaEntity {
   protected TransactionFileJpaEntity() {}
 
   TransactionFileJpaEntity(
+      Long userId,
       String fileName,
       int periodYear,
       int periodMonth,
       String checksum,
       Instant loadedAt,
       int transactionCount) {
+    this.userId = userId;
     this.fileName = fileName;
     this.periodYear = periodYear;
     this.periodMonth = periodMonth;

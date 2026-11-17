@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261117-04-add-user-and-category-to-account-transaction
+      author: juan
+      changes:
+        - addColumn:
+            tableName: account_transaction
+            columns:
+              - column:
+                  name: user_account_id
+                  type: BIGINT
+                  remarks: The user the transaction belongs to
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  remarks: The category of the spend, empty while it has none
+        - sql:
+            sql: >
+              update account_transaction t
+              set user_account_id =
+                (select f.user_account_id from transaction_file f where f.id = t.transaction_file_id)
+        - addNotNullConstraint:
+            tableName: account_transaction
+            columnName: user_account_id
+            columnDataType: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: account_transaction
+            baseColumnNames: user_account_id
+            constraintName: fk_account_transaction_user_account
+            referencedTableName: user_account
+            referencedColumnNames: id
+        # Deleting a category leaves its transactions without category
+        - addForeignKeyConstraint:
+            baseTableName: account_transaction
+            baseColumnNames: category_id
+            constraintName: fk_account_transaction_category
+            referencedTableName: category
+            referencedColumnNames: id
+            onDelete: SET NULL
+        # The bank reference is unique for the bank of a user, not for every bank
+        - dropUniqueConstraint:
+            tableName: account_transaction
+            constraintName: uq_account_transaction_bank_reference
+        - addUniqueConstraint:
+            tableName: account_transaction
+            columnNames: user_account_id, bank_reference
+            constraintName: uq_account_transaction_user_account_bank_reference
+        - createIndex:
+            tableName: account_transaction
+            indexName: ix_account_transaction_category_id
+            columns:
+              - column:
+                  name: category_id

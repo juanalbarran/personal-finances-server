@@ -29,6 +29,6 @@ spring:
 
 finances:
   transaction-files:
-    # Where the monthly <year>.<month>.transactions.xlsx files live, relative to
-    # the project root the `server` script runs from
+    # Where the monthly <username>/<year>.<month>.transactions.xlsx files live,
+    # relative to the project root the `server` script runs from
     directory: docs/files

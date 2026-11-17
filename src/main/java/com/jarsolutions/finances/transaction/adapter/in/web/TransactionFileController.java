@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,16 +30,19 @@ class TransactionFileController {
     this.getTransactionFilesUseCase = getTransactionFilesUseCase;
   }
 
-  /** Loads a transaction file. Sending the same file again returns the first load. */
-  @PostMapping(path = "/transaction-files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  TransactionFileResponse upload(@RequestPart("file") MultipartFile file) throws IOException {
+  /** Loads a transaction file for the user. Sending the same file again returns the first load. */
+  @PostMapping(
+      path = "/users/{username}/transaction-files",
+      consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  TransactionFileResponse upload(
+      @PathVariable String username, @RequestPart("file") MultipartFile file) throws IOException {
     return TransactionFileResponse.from(
-        uploadTransactionFileUseCase.uploadTransactionFile(file.getBytes()));
+        uploadTransactionFileUseCase.uploadTransactionFile(username, file.getBytes()));
   }
 
-  @GetMapping("/transaction-files")
-  List<TransactionFileResponse> list() {
-    return getTransactionFilesUseCase.getTransactionFiles().stream()
+  @GetMapping("/users/{username}/transaction-files")
+  List<TransactionFileResponse> list(@PathVariable String username) {
+    return getTransactionFilesUseCase.getTransactionFiles(username).stream()
         .map(TransactionFileResponse::from)
         .toList();
   }

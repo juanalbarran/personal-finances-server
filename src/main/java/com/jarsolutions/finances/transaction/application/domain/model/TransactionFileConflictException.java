@@ -1,6 +1,6 @@
 package com.jarsolutions.finances.transaction.application.domain.model;
 
-/** A different file is already there for the same month. */
+/** A different file of the user is already there for the same month. */
 public class TransactionFileConflictException extends RuntimeException {
 
   public TransactionFileConflictException(TransactionFileName name) {

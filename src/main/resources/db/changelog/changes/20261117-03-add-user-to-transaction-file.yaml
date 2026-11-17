@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20261117-03-add-user-to-transaction-file
+      author: juan
+      changes:
+        - addColumn:
+            tableName: transaction_file
+            columns:
+              - column:
+                  name: user_account_id
+                  type: BIGINT
+                  remarks: The user the file belongs to
+        # The files loaded before there were several users belong to the first user
+        - sql:
+            sql: >
+              update transaction_file
+              set user_account_id =
+                (select id from user_account where username = '${first_user_username}')
+        - addNotNullConstraint:
+            tableName: transaction_file
+            columnName: user_account_id
+            columnDataType: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: transaction_file
+            baseColumnNames: user_account_id
+            constraintName: fk_transaction_file_user_account
+            referencedTableName: user_account
+            referencedColumnNames: id
+        # Each user has one file per month, under the same name as the other users
+        - dropUniqueConstraint:
+            tableName: transaction_file
+            constraintName: uq_transaction_file_file_name
+        - dropUniqueConstraint:
+            tableName: transaction_file
+            constraintName: uq_transaction_file_period
+        - addUniqueConstraint:
+            tableName: transaction_file
+            columnNames: user_account_id, period_year, period_month
+            constraintName: uq_transaction_file_user_account_period

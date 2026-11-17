@@ -2,11 +2,14 @@ package com.jarsolutions.finances.transaction.application.domain.service;
 
 import static java.util.function.Predicate.not;
 
+import com.jarsolutions.finances.category.application.port.in.GetCategorizerUseCase;
 import com.jarsolutions.finances.common.UseCase;
+import com.jarsolutions.finances.transaction.application.domain.model.CategorizedTransaction;
 import com.jarsolutions.finances.transaction.application.domain.model.Statement;
 import com.jarsolutions.finances.transaction.application.domain.model.Transaction;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFile;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
+import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import com.jarsolutions.finances.transaction.application.port.in.LoadStoredTransactionFileUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.UploadTransactionFileUseCase;
@@ -16,6 +19,8 @@ import com.jarsolutions.finances.transaction.application.port.out.ParseTransacti
 import com.jarsolutions.finances.transaction.application.port.out.ReadStoredTransactionFilePort;
 import com.jarsolutions.finances.transaction.application.port.out.SaveTransactionFilePort;
 import com.jarsolutions.finances.transaction.application.port.out.StoreTransactionFilePort;
+import com.jarsolutions.finances.user.application.domain.model.User;
+import com.jarsolutions.finances.user.application.port.in.GetUserUseCase;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
@@ -23,17 +28,21 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Loads one transaction file. Only the transactions of the month of the file are stored, and a
- * transaction the database already has is not stored twice.
+ * Loads one transaction file of a user. Only the transactions of the month of the file are stored,
+ * and a transaction the user already has is not stored twice. The spends get the category the rules
+ * of the user choose.
  */
 @UseCase
 @Transactional
 class LoadTransactionFileService
     implements UploadTransactionFileUseCase, LoadStoredTransactionFileUseCase {
 
+  private final GetUserUseCase getUserUseCase;
+  private final GetCategorizerUseCase getCategorizerUseCase;
   private final ParseTransactionFilePort parseTransactionFilePort;
   private final ReadStoredTransactionFilePort readStoredTransactionFilePort;
   private final StoreTransactionFilePort storeTransactionFilePort;
@@ -42,12 +51,16 @@ class LoadTransactionFileService
   private final SaveTransactionFilePort saveTransactionFilePort;
 
   LoadTransactionFileService(
+      GetUserUseCase getUserUseCase,
+      GetCategorizerUseCase getCategorizerUseCase,
       ParseTransactionFilePort parseTransactionFilePort,
       ReadStoredTransactionFilePort readStoredTransactionFilePort,
       StoreTransactionFilePort storeTransactionFilePort,
       LoadTransactionFilesPort loadTransactionFilesPort,
       LoadBankReferencesPort loadBankReferencesPort,
       SaveTransactionFilePort saveTransactionFilePort) {
+    this.getUserUseCase = getUserUseCase;
+    this.getCategorizerUseCase = getCategorizerUseCase;
     this.parseTransactionFilePort = parseTransactionFilePort;
     this.readStoredTransactionFilePort = readStoredTransactionFilePort;
     this.storeTransactionFilePort = storeTransactionFilePort;
@@ -58,31 +71,36 @@ class LoadTransactionFileService
 
   /** The month of the file is the month of the last day it was exported for. */
   @Override
-  public TransactionFile uploadTransactionFile(byte[] content) {
+  public TransactionFile uploadTransactionFile(String username, byte[] content) {
+    User user = getUserUseCase.getUser(username);
     Statement statement = parseTransactionFilePort.parse(content);
     TransactionFileName name = new TransactionFileName(statement.period());
-    return alreadyLoaded(name, content)
+    return alreadyLoaded(user, name, content)
         .orElseGet(
             () -> {
-              TransactionFile file = load(name, content, statement);
+              TransactionFile file = load(user, name, content, statement);
               // Last, so a file that could not be loaded is not left in the directory
-              storeTransactionFilePort.storeTransactionFile(name, content);
+              storeTransactionFilePort.storeTransactionFile(
+                  new TransactionFileLocation(user.username(), name), content);
               return file;
             });
   }
 
-  /** The month of the file is the one in its name. */
+  /** The month of the file is the one in its name, and its user the one of its directory. */
   @Override
-  public TransactionFile loadStoredTransactionFile(TransactionFileName name) {
-    byte[] content = readStoredTransactionFilePort.readStoredTransactionFile(name);
-    return alreadyLoaded(name, content)
-        .orElseGet(() -> load(name, content, parseTransactionFilePort.parse(content)));
+  public TransactionFile loadStoredTransactionFile(TransactionFileLocation location) {
+    User user = getUserUseCase.getUser(location.username());
+    byte[] content = readStoredTransactionFilePort.readStoredTransactionFile(location);
+    return alreadyLoaded(user, location.name(), content)
+        .orElseGet(
+            () -> load(user, location.name(), content, parseTransactionFilePort.parse(content)));
   }
 
   /** Loading the same file again changes nothing, another file for the same month is refused. */
-  private Optional<TransactionFile> alreadyLoaded(TransactionFileName name, byte[] content) {
+  private Optional<TransactionFile> alreadyLoaded(
+      User user, TransactionFileName name, byte[] content) {
     String checksum = checksumOf(content);
-    return loadTransactionFilesPort.loadTransactionFiles().stream()
+    return loadTransactionFilesPort.loadTransactionFiles(user.id()).stream()
         .filter(file -> file.name().equals(name))
         .findFirst()
         .map(
@@ -92,18 +110,24 @@ class LoadTransactionFileService
                     .orElseThrow(() -> new TransactionFileConflictException(name)));
   }
 
-  private TransactionFile load(TransactionFileName name, byte[] content, Statement statement) {
+  private TransactionFile load(
+      User user, TransactionFileName name, byte[] content, Statement statement) {
     List<Transaction> ofThePeriod = statement.transactionsOf(name.period());
     Set<String> existing =
         loadBankReferencesPort.loadExistingBankReferences(
-            ofThePeriod.stream().map(Transaction::bankReference).toList());
-    List<Transaction> newTransactions =
+            user.id(), ofThePeriod.stream().map(Transaction::bankReference).toList());
+    Function<Transaction, Optional<Long>> categoryOf =
+        TransactionCategorizer.with(getCategorizerUseCase.getCategorizer(user.id()));
+    List<CategorizedTransaction> newTransactions =
         ofThePeriod.stream()
             .filter(not(transaction -> existing.contains(transaction.bankReference())))
+            .map(
+                transaction ->
+                    new CategorizedTransaction(transaction, categoryOf.apply(transaction)))
             .toList();
     TransactionFile file =
         new TransactionFile(name, checksumOf(content), Instant.now(), newTransactions.size());
-    saveTransactionFilePort.saveTransactionFile(file, newTransactions);
+    saveTransactionFilePort.saveTransactionFile(user.id(), file, newTransactions);
     return file;
   }
 

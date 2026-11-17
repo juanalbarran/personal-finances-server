@@ -13,6 +13,7 @@ import com.jarsolutions.finances.transaction.application.domain.model.Transactio
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import com.jarsolutions.finances.transaction.application.port.in.GetTransactionFilesUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.UploadTransactionFileUseCase;
+import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
@@ -39,11 +40,11 @@ class TransactionFileControllerTest {
 
   @Test
   void upload_returnsTheLoadedFile() throws Exception {
-    when(uploadTransactionFileUseCase.uploadTransactionFile(new byte[] {1, 2, 3}))
+    when(uploadTransactionFileUseCase.uploadTransactionFile("juan", new byte[] {1, 2, 3}))
         .thenReturn(LOADED);
 
     mockMvc
-        .perform(multipart("/transaction-files").file(FILE))
+        .perform(multipart("/users/juan/transaction-files").file(FILE))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.fileName").value("2026.october.transactions.xlsx"))
         .andExpect(jsonPath("$.year").value(2026))
@@ -55,29 +56,40 @@ class TransactionFileControllerTest {
 
   @Test
   void upload_whenTheFileIsNotATransactionFile_returns400() throws Exception {
-    when(uploadTransactionFileUseCase.uploadTransactionFile(any()))
+    when(uploadTransactionFileUseCase.uploadTransactionFile(any(), any()))
         .thenThrow(new InvalidTransactionFileException("The header line was not found"));
 
     mockMvc
-        .perform(multipart("/transaction-files").file(FILE))
+        .perform(multipart("/users/juan/transaction-files").file(FILE))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.detail").value("The header line was not found"));
   }
 
   @Test
   void upload_whenAnotherFileExistsForTheMonth_returns409() throws Exception {
-    when(uploadTransactionFileUseCase.uploadTransactionFile(any()))
+    when(uploadTransactionFileUseCase.uploadTransactionFile(any(), any()))
         .thenThrow(new TransactionFileConflictException(OCTOBER));
 
-    mockMvc.perform(multipart("/transaction-files").file(FILE)).andExpect(status().isConflict());
+    mockMvc.perform(multipart("/users/juan/transaction-files").file(FILE)).andExpect(status().isConflict());
+  }
+
+  @Test
+  void list_whenTheUserDoesNotExist_returns404() throws Exception {
+    when(getTransactionFilesUseCase.getTransactionFiles("nobody"))
+        .thenThrow(new UserNotFoundException("nobody"));
+
+    mockMvc
+        .perform(get("/users/nobody/transaction-files"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.detail").value("The user nobody does not exist"));
   }
 
   @Test
   void list_returnsTheLoadedFiles() throws Exception {
-    when(getTransactionFilesUseCase.getTransactionFiles()).thenReturn(List.of(LOADED));
+    when(getTransactionFilesUseCase.getTransactionFiles("juan")).thenReturn(List.of(LOADED));
 
     mockMvc
-        .perform(get("/transaction-files"))
+        .perform(get("/users/juan/transaction-files"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0].fileName").value("2026.october.transactions.xlsx"))
         .andExpect(jsonPath("$[0].transactionCount").value(83));

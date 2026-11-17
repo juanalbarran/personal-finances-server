@@ -6,6 +6,6 @@ import java.util.List;
 @FunctionalInterface
 public interface LoadTransactionFilesPort {
 
-  /** Every file that was loaded into the database. */
-  List<TransactionFile> loadTransactionFiles();
+  /** Every file of the user that was loaded into the database. */
+  List<TransactionFile> loadTransactionFiles(long userId);
 }
