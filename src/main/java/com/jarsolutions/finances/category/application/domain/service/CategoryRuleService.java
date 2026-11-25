@@ -1,9 +1,9 @@
 package com.jarsolutions.finances.category.application.domain.service;
 
+import com.jarsolutions.finances.category.application.domain.exception.CategoryRuleAlreadyExistsException;
+import com.jarsolutions.finances.category.application.domain.exception.CategoryRuleNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.Categorizer;
 import com.jarsolutions.finances.category.application.domain.model.CategoryRule;
-import com.jarsolutions.finances.category.application.domain.model.CategoryRuleAlreadyExistsException;
-import com.jarsolutions.finances.category.application.domain.model.CategoryRuleNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.RuleField;
 import com.jarsolutions.finances.category.application.port.in.CreateCategoryRuleUseCase;
 import com.jarsolutions.finances.category.application.port.in.DeleteCategoryRuleUseCase;

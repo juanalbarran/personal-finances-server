@@ -3,7 +3,7 @@ package com.jarsolutions.finances.transaction.adapter.out.filesystem;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import java.io.IOException;

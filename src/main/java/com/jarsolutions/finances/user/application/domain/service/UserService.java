@@ -1,11 +1,11 @@
 package com.jarsolutions.finances.user.application.domain.service;
 
 import com.jarsolutions.finances.common.UseCase;
+import com.jarsolutions.finances.user.application.domain.exception.UserAlreadyExistsException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.NewUser;
 import com.jarsolutions.finances.user.application.domain.model.User;
-import com.jarsolutions.finances.user.application.domain.model.UserAlreadyExistsException;
 import com.jarsolutions.finances.user.application.domain.model.UserCreated;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.UserProfile;
 import com.jarsolutions.finances.user.application.port.in.CreateUserUseCase;
 import com.jarsolutions.finances.user.application.port.in.DeleteUserUseCase;

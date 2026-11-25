@@ -1,8 +1,8 @@
 package com.jarsolutions.finances.category.application.domain.service;
 
+import com.jarsolutions.finances.category.application.domain.exception.CategoryAlreadyExistsException;
+import com.jarsolutions.finances.category.application.domain.exception.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.Category;
-import com.jarsolutions.finances.category.application.domain.model.CategoryAlreadyExistsException;
-import com.jarsolutions.finances.category.application.domain.model.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.DefaultCategories;
 import com.jarsolutions.finances.category.application.port.in.CreateCategoryUseCase;
 import com.jarsolutions.finances.category.application.port.in.CreateDefaultCategoriesUseCase;

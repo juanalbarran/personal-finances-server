@@ -1,5 +1,6 @@
 package com.jarsolutions.finances.category.application.domain.model;
 
+import com.jarsolutions.finances.category.application.domain.exception.InvalidCategoryException;
 import java.util.Optional;
 import java.util.function.Predicate;
 

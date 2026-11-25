@@ -1,6 +1,6 @@
 package com.jarsolutions.finances.category.adapter.in.web;
 
-import com.jarsolutions.finances.category.application.domain.model.InvalidCategoryException;
+import com.jarsolutions.finances.category.application.domain.exception.InvalidCategoryException;
 import com.jarsolutions.finances.category.application.port.in.CreateCategoryRuleUseCase;
 import com.jarsolutions.finances.category.application.port.in.DeleteCategoryRuleUseCase;
 import com.jarsolutions.finances.category.application.port.in.GetCategoryRulesUseCase;

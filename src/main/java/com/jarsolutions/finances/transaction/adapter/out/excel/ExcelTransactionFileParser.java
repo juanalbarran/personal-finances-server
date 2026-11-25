@@ -1,6 +1,6 @@
 package com.jarsolutions.finances.transaction.adapter.out.excel;
 
-import com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException;
 import com.jarsolutions.finances.transaction.application.domain.model.Statement;
 import com.jarsolutions.finances.transaction.application.domain.model.Transaction;
 import com.jarsolutions.finances.transaction.application.port.out.ParseTransactionFilePort;

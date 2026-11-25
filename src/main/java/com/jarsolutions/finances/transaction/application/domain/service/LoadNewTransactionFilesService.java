@@ -10,7 +10,7 @@ import com.jarsolutions.finances.transaction.application.port.in.LoadNewTransact
 import com.jarsolutions.finances.transaction.application.port.in.LoadStoredTransactionFileUseCase;
 import com.jarsolutions.finances.transaction.application.port.out.ListStoredTransactionFilesPort;
 import com.jarsolutions.finances.transaction.application.port.out.LoadTransactionFilesPort;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import com.jarsolutions.finances.user.application.port.in.GetUserUseCase;
 import java.util.Comparator;
 import java.util.List;

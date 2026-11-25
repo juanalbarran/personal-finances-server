@@ -1,5 +1,6 @@
 package com.jarsolutions.finances.user.application.domain.model;
 
+import com.jarsolutions.finances.user.application.domain.exception.InvalidUserException;
 import java.util.Optional;
 import java.util.function.Predicate;
 

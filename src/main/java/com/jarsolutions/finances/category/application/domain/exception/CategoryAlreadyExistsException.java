@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.category.application.domain.model;
+package com.jarsolutions.finances.category.application.domain.exception;
 
 /** The user already has a category with the name. */
 public class CategoryAlreadyExistsException extends RuntimeException {

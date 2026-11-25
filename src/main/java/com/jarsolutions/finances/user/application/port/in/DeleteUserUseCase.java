@@ -6,7 +6,7 @@ public interface DeleteUserUseCase {
   /**
    * Deletes the user with its categories and rules.
    *
-   * @throws com.jarsolutions.finances.user.application.domain.model.UserHasTransactionsException
+   * @throws com.jarsolutions.finances.user.application.domain.exception.UserHasTransactionsException
    *     when the user has transactions
    */
   void deleteUser(String username);

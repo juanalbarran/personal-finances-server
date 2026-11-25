@@ -10,12 +10,12 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.jarsolutions.finances.category.application.domain.exception.CategoryAlreadyExistsException;
+import com.jarsolutions.finances.category.application.domain.exception.CategoryNotFoundException;
+import com.jarsolutions.finances.category.application.domain.exception.CategoryRuleAlreadyExistsException;
+import com.jarsolutions.finances.category.application.domain.exception.InvalidCategoryException;
 import com.jarsolutions.finances.category.application.domain.model.Category;
-import com.jarsolutions.finances.category.application.domain.model.CategoryAlreadyExistsException;
-import com.jarsolutions.finances.category.application.domain.model.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.CategoryRule;
-import com.jarsolutions.finances.category.application.domain.model.CategoryRuleAlreadyExistsException;
-import com.jarsolutions.finances.category.application.domain.model.InvalidCategoryException;
 import com.jarsolutions.finances.category.application.domain.model.RuleField;
 import com.jarsolutions.finances.category.application.port.in.CreateCategoryRuleUseCase;
 import com.jarsolutions.finances.category.application.port.in.CreateCategoryUseCase;
@@ -24,7 +24,7 @@ import com.jarsolutions.finances.category.application.port.in.DeleteCategoryUseC
 import com.jarsolutions.finances.category.application.port.in.GetCategoriesUseCase;
 import com.jarsolutions.finances.category.application.port.in.GetCategoryRulesUseCase;
 import com.jarsolutions.finances.category.application.port.in.RenameCategoryUseCase;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

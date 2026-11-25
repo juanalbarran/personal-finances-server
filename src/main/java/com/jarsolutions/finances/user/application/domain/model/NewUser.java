@@ -1,5 +1,7 @@
 package com.jarsolutions.finances.user.application.domain.model;
 
+import com.jarsolutions.finances.user.application.domain.exception.InvalidUserException;
+
 /**
  * A user to create.
  *

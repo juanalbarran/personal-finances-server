@@ -1,6 +1,6 @@
 package com.jarsolutions.finances.transaction.adapter.out.filesystem;
 
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import com.jarsolutions.finances.transaction.application.port.out.ListStoredTransactionFilesPort;

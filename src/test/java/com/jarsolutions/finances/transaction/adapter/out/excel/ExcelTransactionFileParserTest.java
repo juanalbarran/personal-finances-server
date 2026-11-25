@@ -6,7 +6,7 @@ import static com.jarsolutions.finances.transaction.TransactionFileFixture.xlsx;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException;
 import com.jarsolutions.finances.transaction.application.domain.model.Statement;
 import com.jarsolutions.finances.transaction.application.domain.model.Transaction;
 import java.io.ByteArrayOutputStream;

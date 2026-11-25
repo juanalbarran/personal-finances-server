@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.category.application.domain.model;
+package com.jarsolutions.finances.category.application.domain.exception;
 
 /** The data given for a category or a rule is not valid. */
 public class InvalidCategoryException extends RuntimeException {

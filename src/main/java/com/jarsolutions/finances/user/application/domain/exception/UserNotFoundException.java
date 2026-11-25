@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.user.application.domain.model;
+package com.jarsolutions.finances.user.application.domain.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

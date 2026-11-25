@@ -4,13 +4,13 @@ import static com.jarsolutions.finances.transaction.TransactionFileFixture.purch
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.jarsolutions.finances.category.application.domain.exception.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.Categorizer;
 import com.jarsolutions.finances.category.application.domain.model.Category;
-import com.jarsolutions.finances.category.application.domain.model.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.CategoryRule;
 import com.jarsolutions.finances.category.application.domain.model.RuleField;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionNotFoundException;
 import com.jarsolutions.finances.transaction.application.domain.model.StoredTransaction;
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.User;
 import java.util.HashMap;
 import java.util.List;

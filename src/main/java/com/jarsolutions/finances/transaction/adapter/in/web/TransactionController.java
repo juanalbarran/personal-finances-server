@@ -1,6 +1,6 @@
 package com.jarsolutions.finances.transaction.adapter.in.web;
 
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionNotFoundException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionNotFoundException;
 import com.jarsolutions.finances.transaction.application.port.in.CategorizeTransactionsUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.GetTransactionsUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.SetTransactionCategoryUseCase;

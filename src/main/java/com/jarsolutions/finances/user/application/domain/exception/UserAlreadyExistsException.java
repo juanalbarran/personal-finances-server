@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.user.application.domain.model;
+package com.jarsolutions.finances.user.application.domain.exception;
 
 /** Another user has the username or the email. */
 public class UserAlreadyExistsException extends RuntimeException {

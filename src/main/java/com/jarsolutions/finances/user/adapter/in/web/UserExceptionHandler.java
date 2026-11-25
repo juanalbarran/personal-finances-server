@@ -1,9 +1,9 @@
 package com.jarsolutions.finances.user.adapter.in.web;
 
-import com.jarsolutions.finances.user.application.domain.model.InvalidUserException;
-import com.jarsolutions.finances.user.application.domain.model.UserAlreadyExistsException;
-import com.jarsolutions.finances.user.application.domain.model.UserHasTransactionsException;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
+import com.jarsolutions.finances.user.application.domain.exception.InvalidUserException;
+import com.jarsolutions.finances.user.application.domain.exception.UserAlreadyExistsException;
+import com.jarsolutions.finances.user.application.domain.exception.UserHasTransactionsException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;

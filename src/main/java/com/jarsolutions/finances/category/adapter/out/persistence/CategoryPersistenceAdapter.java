@@ -1,7 +1,7 @@
 package com.jarsolutions.finances.category.adapter.out.persistence;
 
+import com.jarsolutions.finances.category.application.domain.exception.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.Category;
-import com.jarsolutions.finances.category.application.domain.model.CategoryNotFoundException;
 import com.jarsolutions.finances.category.application.domain.model.CategoryRule;
 import com.jarsolutions.finances.category.application.domain.model.RuleField;
 import com.jarsolutions.finances.category.application.port.out.CreateCategoryPort;

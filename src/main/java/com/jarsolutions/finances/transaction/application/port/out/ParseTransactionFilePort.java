@@ -7,7 +7,7 @@ public interface ParseTransactionFilePort {
 
   /**
    * @throws
-   *     com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException
+   *     com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException
    *     when the content is not in the format of the bank
    */
   Statement parse(byte[] content);

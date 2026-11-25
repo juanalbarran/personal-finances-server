@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.transaction.application.domain.model;
+package com.jarsolutions.finances.transaction.application.domain.exception;
 
 /** The user has no transaction with the id. */
 public class TransactionNotFoundException extends RuntimeException {

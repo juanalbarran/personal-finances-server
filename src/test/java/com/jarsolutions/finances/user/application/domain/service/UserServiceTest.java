@@ -3,12 +3,12 @@ package com.jarsolutions.finances.user.application.domain.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.jarsolutions.finances.user.application.domain.model.InvalidUserException;
+import com.jarsolutions.finances.user.application.domain.exception.InvalidUserException;
+import com.jarsolutions.finances.user.application.domain.exception.UserAlreadyExistsException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.NewUser;
 import com.jarsolutions.finances.user.application.domain.model.User;
-import com.jarsolutions.finances.user.application.domain.model.UserAlreadyExistsException;
 import com.jarsolutions.finances.user.application.domain.model.UserCreated;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.UserProfile;
 import java.util.ArrayList;
 import java.util.List;

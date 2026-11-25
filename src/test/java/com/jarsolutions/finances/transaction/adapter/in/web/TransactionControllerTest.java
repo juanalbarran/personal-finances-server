@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.jarsolutions.finances.category.application.domain.model.CategoryNotFoundException;
+import com.jarsolutions.finances.category.application.domain.exception.CategoryNotFoundException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionNotFoundException;
 import com.jarsolutions.finances.transaction.application.domain.model.StoredTransaction;
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionNotFoundException;
 import com.jarsolutions.finances.transaction.application.port.in.CategorizeTransactionsUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.GetTransactionsUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.SetTransactionCategoryUseCase;

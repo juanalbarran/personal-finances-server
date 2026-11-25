@@ -1,7 +1,7 @@
 package com.jarsolutions.finances.transaction.adapter.in.web;
 
-import com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException;
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
+import com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.port.in.GetTransactionFilesUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.UploadTransactionFileUseCase;
 import java.io.IOException;

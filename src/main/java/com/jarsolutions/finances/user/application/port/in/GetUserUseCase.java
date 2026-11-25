@@ -6,7 +6,7 @@ import com.jarsolutions.finances.user.application.domain.model.User;
 public interface GetUserUseCase {
 
   /**
-   * @throws com.jarsolutions.finances.user.application.domain.model.UserNotFoundException when
+   * @throws com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException when
    *     nobody has the username
    */
   User getUser(String username);

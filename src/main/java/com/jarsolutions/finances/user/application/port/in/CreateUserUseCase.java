@@ -7,7 +7,7 @@ import com.jarsolutions.finances.user.application.domain.model.User;
 public interface CreateUserUseCase {
 
   /**
-   * @throws com.jarsolutions.finances.user.application.domain.model.UserAlreadyExistsException
+   * @throws com.jarsolutions.finances.user.application.domain.exception.UserAlreadyExistsException
    *     when another user has the username or the email
    */
   User createUser(NewUser newUser);

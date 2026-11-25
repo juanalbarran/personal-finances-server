@@ -1,10 +1,10 @@
 package com.jarsolutions.finances.user.adapter.out.persistence;
 
 import com.jarsolutions.finances.common.PersistenceAdapter;
+import com.jarsolutions.finances.user.application.domain.exception.UserHasTransactionsException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.NewUser;
 import com.jarsolutions.finances.user.application.domain.model.User;
-import com.jarsolutions.finances.user.application.domain.model.UserHasTransactionsException;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
 import com.jarsolutions.finances.user.application.port.out.CreateUserPort;
 import com.jarsolutions.finances.user.application.port.out.DeleteUserPort;
 import com.jarsolutions.finances.user.application.port.out.LoadUserByEmailPort;

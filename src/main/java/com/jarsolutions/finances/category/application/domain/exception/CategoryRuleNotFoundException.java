@@ -1,4 +1,4 @@
-package com.jarsolutions.finances.category.application.domain.model;
+package com.jarsolutions.finances.category.application.domain.exception;
 
 /** The user has no rule with the id. */
 public class CategoryRuleNotFoundException extends RuntimeException {

@@ -4,11 +4,11 @@ import static java.util.function.Predicate.not;
 
 import com.jarsolutions.finances.category.application.port.in.GetCategorizerUseCase;
 import com.jarsolutions.finances.common.UseCase;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.CategorizedTransaction;
 import com.jarsolutions.finances.transaction.application.domain.model.Statement;
 import com.jarsolutions.finances.transaction.application.domain.model.Transaction;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFile;
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import com.jarsolutions.finances.transaction.application.port.in.LoadStoredTransactionFileUseCase;

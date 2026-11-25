@@ -2,12 +2,12 @@ package com.jarsolutions.finances.transaction.application.domain.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFile;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileLocation;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import com.jarsolutions.finances.user.application.domain.model.User;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
 import com.jarsolutions.finances.user.application.port.in.GetUserUseCase;
 import java.time.Instant;
 import java.time.YearMonth;

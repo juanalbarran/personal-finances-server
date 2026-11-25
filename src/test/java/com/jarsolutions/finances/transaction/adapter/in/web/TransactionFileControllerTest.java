@@ -7,13 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.jarsolutions.finances.transaction.application.domain.model.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.InvalidTransactionFileException;
+import com.jarsolutions.finances.transaction.application.domain.exception.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFile;
-import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileConflictException;
 import com.jarsolutions.finances.transaction.application.domain.model.TransactionFileName;
 import com.jarsolutions.finances.transaction.application.port.in.GetTransactionFilesUseCase;
 import com.jarsolutions.finances.transaction.application.port.in.UploadTransactionFileUseCase;
-import com.jarsolutions.finances.user.application.domain.model.UserNotFoundException;
+import com.jarsolutions.finances.user.application.domain.exception.UserNotFoundException;
 import java.time.Instant;
 import java.time.YearMonth;
 import java.util.List;
